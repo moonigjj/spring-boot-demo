@@ -94,7 +94,6 @@ public class GjyApplicationTests {
 	public void testAddPermission(){
 
 		Permission permission = new Permission();
-
 		/*permission.setAvailable(0);
 		permission.setName("首页");
 		permission.setParentId(0);
@@ -103,6 +102,13 @@ public class GjyApplicationTests {
 		permission.setResourceType(0);
 		permission.setPermission("*");
 		premissionService.insert(permission);*/
+	}
+
+	@Test
+	public void testFindUser(){
+
+		UserAdmin userAdmin = userService.findByName("gjy");
+		System.out.printf("user admin >>> " + GsonUtils.toJson(userAdmin));
 	}
 
 }

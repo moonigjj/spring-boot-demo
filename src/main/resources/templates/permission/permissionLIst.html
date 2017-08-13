@@ -66,30 +66,18 @@
                 return index + 1;
             }
         }, {
-            field: 'userName',
-            title: '用户名',
+            field: 'name',
+            title: '权限名称',
             align: 'center'
         }, {
-            field: 'realName',
-            title: '真实姓名',
+            field: 'remark',
+            title: '权限描述',
             align: 'center'
-        },
-            {
-                field: 'status',
-                title: '状态',
-                align: 'center',
-                formatter: function (value, row, index) {
-
-                    var status = row.status;
-                    var str = "<button type='button' class='btn btn-outline btn-primary' >正常</button>";
-                    if (status == 1){
-
-                        str = "<button type='button' class='btn btn-outline btn-primary' >删除</button>";
-                    }
-                    return str;
-                }
-            }
-            ,{
+        },{
+            field: 'createTime',
+            title: '创建时间',
+            align: 'center'
+        },{
                 field: 'id',
                 title: '操作',
                 align: 'center',

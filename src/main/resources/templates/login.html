@@ -49,7 +49,7 @@
                     <input type="text" class="form-control uname" placeholder="用户名" name="username" />
                     <input type="password" class="form-control pword m-b" placeholder="密码" name="password" />
                     <a href="">忘记密码了？</a>
-                    <button class="btn btn-success btn-block">登录</button>
+                    <button class="btn btn-success btn-block" onclick="login();">登录</button>
                 </form>
             </div>
         </div>
@@ -66,38 +66,42 @@
 </body>
 
 <script>
-    $("#loginForm").validate({
+    function login() {
+        $("#loginForm").validate({
 
-        rules: {
-            username: "required",
-            password: "required"
-        },
-        messages: {
-            username: "请填写用户名",
-            password: "请填写登录密码"
-        },
-        submitHandler: function () {
-            $.ajax({
-                url: '/login',
-                dataType: 'json',
-                type: 'post',
-                data: $('#loginForm').serialize(),
-                error:function () {
+            rules: {
+                username: "required",
+                password: "required"
+            },
+            messages: {
+                username: "请填写用户名",
+                password: "请填写登录密码"
+            },
+            submitHandler: function () {
+                $.ajax({
+                    url: '/login',
+                    dataType: 'json',
+                    type: 'post',
+                    data: $('#loginForm').serialize(),
+                    error:function () {
 
-                },
-                success: function (data) {
-                    if(data.success == 0){
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        if(data.success == 0){
 
-                        alert(data.msg);
-                    } else {
+                            alert(data.msg);
+                        } else {
 
-                        window.location.href = '/index';
+                            window.location.href = '/index';
+                        }
                     }
-                }
-            });
-            return false;
-        }
-    })
+                });
+                return false;
+            }
+        })
+    }
+
 </script>
 
 </html>

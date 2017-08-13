@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.enums.FieldFill;
 import com.baomidou.mybatisplus.enums.FieldStrategy;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.gjy.web.util.DateUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -36,10 +38,27 @@ public class SuperEntity<T extends Model> extends Model<T> {
     }
 
     @TableField(value = "create_time", strategy = FieldStrategy.NOT_EMPTY, fill = FieldFill.INSERT)
-    private Date createTime;
+    protected Date createTime;
 
     @TableField(value = "update_time",strategy = FieldStrategy.NOT_EMPTY, fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;
+    protected Date updateTime;
 
 
+    @JsonFormat(timezone = "GMT+8", pattern = DateUtils.pattern_day)
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    @JsonFormat(timezone = "GMT+8", pattern = DateUtils.pattern_day)
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 }

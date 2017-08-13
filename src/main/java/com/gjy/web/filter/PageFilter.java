@@ -1,8 +1,6 @@
 package com.gjy.web.filter;
 
 import com.gjy.web.util.StrUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.annotation.Order;
 
 import javax.servlet.*;
@@ -18,10 +16,8 @@ import java.io.IOException;
  * @create 2017/7/11 14:12
  **/
 @Order(5)
-@WebFilter(filterName = "pageFilter", urlPatterns = "/user/list")
+@WebFilter(filterName = "pageFilter", urlPatterns = "/*")
 public class PageFilter implements Filter {
-
-    private static final Logger logger = LoggerFactory.getLogger(PageFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -54,7 +50,6 @@ public class PageFilter implements Filter {
     protected int getOffset(HttpServletRequest request){
 
         String offset = request.getParameter("offset");
-        logger.info("request param offset >>> {}", offset);
         if (StrUtils.isDigit(offset)){
 
             return Integer.parseInt(offset);
@@ -67,7 +62,6 @@ public class PageFilter implements Filter {
     protected int getPageSize(HttpServletRequest request){
 
         String pageSize = request.getParameter("pageSize");
-        logger.info("request param pageSize >>> {}", pageSize);
         if (StrUtils.isDigit(pageSize)){
 
             return Integer.parseInt(pageSize);

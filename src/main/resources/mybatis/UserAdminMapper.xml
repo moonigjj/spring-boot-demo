@@ -19,7 +19,7 @@
   <!--通过用户名查询 -->
   <select id="selectByName" resultMap="BaseResultMap" parameterType="string">
     SELECT
-    id, user_name, real_name, password, salt, status
+    id, user_name, real_name, password, salt, status, create_time
     FROM sys_user_admin
     WHERE deleted = 0 AND user_name = #{username}
     limit 1;
