@@ -1,5 +1,6 @@
 package com.gjy.common;
 
+import com.gjy.exception.IExceptionMdgEnum;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -14,12 +15,12 @@ import java.io.Serializable;
 @Data
 public class ResultEntity<T> implements Serializable {
 
-    private String code;
+    private Integer code;
 
     private String msg;
 
-    private Integer success;
+    private Integer success = IExceptionMdgEnum.FAIL_CODE;
 
-    private T datas;
+    private T data;
 
 }

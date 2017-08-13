@@ -1,12 +1,15 @@
 package com.gjy.web.controller.user;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.gjy.common.ResultEntity;
 import com.gjy.service.user.PermissionService;
+import com.gjy.web.filter.PageContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * ClassName:PremissionController
@@ -16,17 +19,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @create 2017/7/18 20:46
  **/
 @Controller
-@RequestMapping(value = "/premission")
-public class PremissionController {
+@RequestMapping(value = "/permission")
+public class PermissionController {
 
     @Autowired
-    private PermissionService premissionService;
+    private PermissionService permissionService;
 
+    @GetMapping
+    public String getLIst(){
+
+        return "permission/permissionList";
+    }
 
     @GetMapping(value = "/list")
+    @ResponseBody
     public Object getListPage(){
 
-        return null;
+        Page page = new Page(PageContext.getOffSet(), PageContext.getPageSize());
+        return permissionService.findListPage(page);
     }
 
     @PostMapping(value = "/add")

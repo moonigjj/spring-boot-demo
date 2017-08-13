@@ -9,12 +9,38 @@ package com.gjy.exception;
  **/
 public interface IExceptionMdgEnum {
 
+    Integer SUCCESS_CODE = 1;//成功标示
+    Integer FAIL_CODE = 0;//失败标示
+
+    enum SystemCode{
+
+        SYS_ERROR(100000, "系统异常")
+        ;
+        private Integer code;
+        private String message;
+
+        SystemCode(Integer code, String message){
+
+            this.code = code;
+            this.message = message;
+        }
+
+        public Integer getCode() {
+            return code;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+    }
+
     /**
      * 用户模块
      */
     enum UserCode{
 
-        USERNAME_OR_PASSWORD_NOT_CORRECT(100001,"用户名或密码不正确")
+        USERNAME_OR_PASSWORD_NOT_EMPTY(101001, "用户名或密码不能为空"),
+        USERNAME_OR_PASSWORD_NOT_CORRECT(101002,"用户名或密码不正确")
         ;
         private Integer code;
         private String message;

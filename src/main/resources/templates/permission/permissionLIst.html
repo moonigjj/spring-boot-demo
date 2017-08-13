@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head th:include="/common/headcss :: commonHeader('用户列表')">
+
+</head>
+<body class="gray-bg">
+
+<div class="ibox float-e-margins">
+    <div class="ibox-title">
+        <h5>用户管理 ／ 用户列表</h5>
+    </div>
+    <div class="ibox-content">
+        <div class="row">
+            <div class="col-sm-12">
+                <h4 class="example-title">从URL加载</h4>
+                <div class="example">
+                    <table id="userTable" data-toggle="table"
+                    >
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div th:include="/common/loadjs :: loadjs"></div>
+</body>
+<script>
+    function queryParams(params) {
+
+        return {
+            pageSize: params.pageSize,
+            offset: params.pageNumber
+        }
+    }
+    $('#userTable').bootstrapTable({
+        method: 'get',
+        contentType: "application/x-www-form-urlencoded",
+        locale:'zh-CN',
+        striped: true,
+        cache: false,
+        pagination: true,
+        pageNumber: 1,
+        pageSize: 10,
+        pageList: [10, 25, 50, 100],
+        url: 'permission/list',
+        sidePagination: "server",
+        queryParamsType: '',
+        queryParams: queryParams,
+        responseHandler:function(res){
+            //在ajax获取到数据，渲染表格之前，修改数据源
+            return {
+                "total": res.total,
+                "rows": res.records
+            };
+        },
+        columns: [{
+            field: 'id',
+            title: '编号',
+            align: 'center',
+            formatter: function (value, row, index) {
+
+                return index + 1;
+            }
+        }, {
+            field: 'userName',
+            title: '用户名',
+            align: 'center'
+        }, {
+            field: 'realName',
+            title: '真实姓名',
+            align: 'center'
+        },
+            {
+                field: 'status',
+                title: '状态',
+                align: 'center',
+                formatter: function (value, row, index) {
+
+                    var status = row.status;
+                    var str = "<button type='button' class='btn btn-outline btn-primary' >正常</button>";
+                    if (status == 1){
+
+                        str = "<button type='button' class='btn btn-outline btn-primary' >删除</button>";
+                    }
+                    return str;
+                }
+            }
+            ,{
+                field: 'id',
+                title: '操作',
+                align: 'center',
+                formatter:function(value,row,index){
+                    //通过formatter可以自定义列显示的内容
+                    //value：当前field的值，即id
+                    //row：当前行的数据
+                    var element =
+                        "<a class='btn btn-info' data-id='"+row.id +"'>编辑</a> "+
+                        "<a class='btn btn-danger' data-id='"+row.id +"'>删除</a> ";
+                    return element;
+                }
+            }]
+
+    });
+</script>
+
+</html>

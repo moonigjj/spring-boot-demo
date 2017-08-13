@@ -15,26 +15,29 @@
   <sql id="Base_Column_List" >
     id, user_name, real_name, password, salt, status, deleted, create_time, update_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from sys_user_admin
-    where id = #{id,jdbcType=INTEGER}
+
+  <!--通过用户名查询 -->
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="string">
+    SELECT
+    id, user_name, real_name, password, salt, status
+    FROM sys_user_admin
+    WHERE deleted = 0 AND user_name = #{username}
+    limit 1;
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from sys_user_admin
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.gjy.model.UserAdmin" >
-    insert into sys_user_admin (id, user_name, real_name, 
-      password, salt, status, 
-      deleted, create_time, update_time
-      )
-    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{deleted,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
-  </insert>
+
+  <!-- 分页列表查询-->
+  <select id="selectListPage" resultMap="BaseResultMap">
+    SELECT
+    id, user_name, real_name, status, create_time
+    FROM sys_user_admin
+    WHERE deleted = 0
+    <if test="userName != null and userName != ''">
+      AND user_name LIKE concat(concat('%', #{userName}), '%')
+    </if>
+    ORDER by id DESC
+  </select>
+
+
   <insert id="insertSelective" parameterType="com.gjy.model.UserAdmin" >
     insert into sys_user_admin
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -124,18 +127,6 @@
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.gjy.model.UserAdmin" >
-    update sys_user_admin
-    set user_name = #{userName,jdbcType=VARCHAR},
-      real_name = #{realName,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      salt = #{salt,jdbcType=VARCHAR},
-      status = #{status,jdbcType=TINYINT},
-      deleted = #{deleted,jdbcType=TINYINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

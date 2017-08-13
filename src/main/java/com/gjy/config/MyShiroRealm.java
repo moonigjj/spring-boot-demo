@@ -1,16 +1,28 @@
 package com.gjy.config;
 
+import com.gjy.model.Role;
+import com.gjy.model.RolePermission;
 import com.gjy.model.UserAdmin;
+import com.gjy.service.role.RolePermissionService;
 import com.gjy.service.user.PermissionService;
 import com.gjy.service.user.RoleService;
 import com.gjy.service.user.UserAdminService;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
+import com.gjy.web.util.EncryptUtils;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.CollectionUtils;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.IntStream;
 
 /**
  * ClassName:MyShiroRealm
@@ -21,6 +33,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  **/
 public class MyShiroRealm extends AuthorizingRealm {
 
+    private static final Logger logger = LoggerFactory.getLogger(MyShiroRealm.class);
+
     @Autowired
     private UserAdminService userService;
 
@@ -28,7 +42,7 @@ public class MyShiroRealm extends AuthorizingRealm {
     private RoleService roleService;
 
     @Autowired
-    private PermissionService permissionService;
+    private RolePermissionService rolePermissionService;
 
     /**
      * 此方法调用  hasRole,hasPermission的时候才会进行回调
@@ -54,7 +68,36 @@ public class MyShiroRealm extends AuthorizingRealm {
         */
 
         UserAdmin userAdmin = (UserAdmin) principalCollection.getPrimaryPrincipal();
-        return null;
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        List<Role> roles = this.roleService.findByUserid(userAdmin.getId());
+        if (!CollectionUtils.isEmpty(roles)) {
+            //设置用户角色
+            Set<String> roleSet = new HashSet<>();
+            Integer size = roles.size();
+            final Integer[] roleIds = new Integer[size];
+            IntStream.range(0, size)
+                    .forEach(idx -> {
+
+                        Role role = roles.get(idx);
+                        if (Objects.nonNull(role)) {
+                            roleIds[idx] = role.getId();
+                            roleSet.add(role.getName());
+                        }
+                    });
+            info.setRoles(roleSet);
+
+            //设置用户角色权限
+            Set<String> permissionSet = new HashSet<>();
+            List<RolePermission> rolePermissions = this.rolePermissionService.findByRoleIds(roleIds);
+            rolePermissions.stream().filter(Objects ::nonNull)
+                    .forEach(r -> {
+
+                        permissionSet.add(r.getPermission());
+                    });
+            info.setStringPermissions(permissionSet);
+        }
+
+        return info;
     }
 
     /**
@@ -66,8 +109,22 @@ public class MyShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
 
-        String username = (String) authenticationToken.getPrincipal();
-        //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
+        UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
+        String username = token.getUsername();
+        String password = String.valueOf(token.getPassword());
+
+        UserAdmin userAdmin = this.userService.findByName(username);
+        if (userAdmin == null){
+
+            throw new AccountException("帐号或密码不正确");
+        }
+        String pwd = EncryptUtils.md5Hex(password, userAdmin.getSalt());
+        if (!pwd.equals(userAdmin.getPassword())){
+
+            throw new AccountException("帐号或密码不正确");
+        }
+        //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自
+        // 定义实现
         /*SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo(
                 userAdmin.getUserName(),
                 userAdmin.getPassword(),
@@ -75,7 +132,8 @@ public class MyShiroRealm extends AuthorizingRealm {
                 getName()
         );*/
 
-        return null;
+        logger.info("身份认证成功，登录用户：" + username);
+        return new SimpleAuthenticationInfo(userAdmin, password, getName());
     }
 
     @Override

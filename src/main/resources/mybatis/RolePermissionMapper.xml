@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjy.mapper.RolePermissionMapper" >
+    <resultMap id="BaseResultMap" type="com.gjy.model.RolePermission" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="role_id" property="roleId" jdbcType="INTEGER" />
+        <result column="permission" property="permission" jdbcType="VARCHAR" />
+        <result column="deleted" property="deleted" jdbcType="TINYINT" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, role_id, permission, deleted, create_time, update_time
+    </sql>
+
+    <!-- 通过角色ids查询权限 -->
+    <select id="selectByRoleIds" resultMap="BaseResultMap">
+        SELECT id, permission
+        FROM sys_role_permission
+        WHERE deleted = 0 AND role_id IN
+        <foreach item="roleId" index="index" collection="array" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </select>
+</mapper>

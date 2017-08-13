@@ -4,32 +4,35 @@
   <resultMap id="BaseResultMap" type="com.gjy.model.Role" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="desc" property="desc" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="deleted" property="deleted" jdbcType="TINYINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, desc, deleted, create_time, update_time
+    id, name, remark, deleted, create_time, update_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from sys_role
-    where id = #{id,jdbcType=INTEGER}
+
+  <!--查询用户角色 -->
+  <select id="selectByUserId" parameterType="integer" resultMap="BaseResultMap">
+    SELECT r.id, r.name, r.remark
+    FROM sys_role r
+    LEFT JOIN sys_user_role ur on r.id = ur.role_id
+    WHERE r.deleted = 0 AND ur.user_id = #{userId};
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from sys_role
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.gjy.model.Role" >
-    insert into sys_role (id, name, desc, 
-      deleted, create_time, update_time
-      )
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR}, 
-      #{deleted,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
-  </insert>
+
+  <!-- 分页列表查询-->
+  <select id="selectListPage" resultMap="BaseResultMap">
+    SELECT
+    id, name, remark, create_time
+    FROM sys_role
+    WHERE deleted = 0
+    <if test="roleName != null and roleName != ''">
+      AND name LIKE concat(concat('%', #{roleName}), '%')
+    </if>
+    ORDER by id DESC
+  </select>
+
   <insert id="insertSelective" parameterType="com.gjy.model.Role" >
     insert into sys_role
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -39,8 +42,8 @@
       <if test="name != null" >
         name,
       </if>
-      <if test="desc != null" >
-        desc,
+      <if test="remark != null" >
+        remark,
       </if>
       <if test="deleted != null" >
         deleted,
@@ -59,8 +62,8 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="desc != null" >
-        #{desc,jdbcType=VARCHAR},
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
       </if>
       <if test="deleted != null" >
         #{deleted,jdbcType=TINYINT},
@@ -79,8 +82,8 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="desc != null" >
-        desc = #{desc,jdbcType=VARCHAR},
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
       <if test="deleted != null" >
         deleted = #{deleted,jdbcType=TINYINT},
@@ -94,13 +97,5 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.gjy.model.Role" >
-    update sys_role
-    set name = #{name,jdbcType=VARCHAR},
-      desc = #{desc,jdbcType=VARCHAR},
-      deleted = #{deleted,jdbcType=TINYINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
+
 </mapper>

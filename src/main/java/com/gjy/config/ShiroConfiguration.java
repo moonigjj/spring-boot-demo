@@ -53,7 +53,7 @@ public class ShiroConfiguration {
 
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(shiroRealm());
-        securityManager.setRememberMeManager(rememberMeManager());
+        //securityManager.setRememberMeManager(rememberMeManager());
         return securityManager;
     }
 
@@ -65,7 +65,7 @@ public class ShiroConfiguration {
     public MyShiroRealm shiroRealm(){
 
         MyShiroRealm shiroRealm = new MyShiroRealm();
-        shiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+        //shiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         return shiroRealm;
     }
 
@@ -115,23 +115,23 @@ public class ShiroConfiguration {
      * cookie对象
      * @return
      */
-    @Bean
-    public SimpleCookie rememberMeCookie(){
-
-        SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
-        simpleCookie.setMaxAge(25900);
-        return simpleCookie;
-    }
+//    @Bean
+//    public SimpleCookie rememberMeCookie(){
+//
+//        SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
+//        simpleCookie.setMaxAge(25900);
+//        return simpleCookie;
+//    }
 
     /**
      * cookie管理器
      * @return
      */
-    @Bean
-    public CookieRememberMeManager rememberMeManager(){
-
-        CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
-        cookieRememberMeManager.setCookie(rememberMeCookie());
-        return cookieRememberMeManager;
-    }
+//    @Bean
+//    public CookieRememberMeManager rememberMeManager(){
+//
+//        CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
+//        cookieRememberMeManager.setCookie(rememberMeCookie());
+//        return cookieRememberMeManager;
+//    }
 }

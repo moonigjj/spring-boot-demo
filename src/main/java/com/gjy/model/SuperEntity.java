@@ -40,4 +40,6 @@ public class SuperEntity<T extends Model> extends Model<T> {
 
     @TableField(value = "update_time",strategy = FieldStrategy.NOT_EMPTY, fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
+
+
 }

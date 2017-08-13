@@ -1,6 +1,6 @@
 package com.gjy.web.util;
 
-import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.shiro.crypto.hash.Md5Hash;
 
 import java.util.Random;
 
@@ -13,6 +13,9 @@ import java.util.Random;
  **/
 public final class EncryptUtils {
 
+    private EncryptUtils(){
+
+    }
     /**
      * md5加密
      * @param password 密码 salt 盐
@@ -24,7 +27,7 @@ public final class EncryptUtils {
 
             return null;
         }
-        return DigestUtils.md5Hex(password + salt);
+        return new Md5Hash(password, salt).toString();
     }
 
     /**
@@ -53,6 +56,8 @@ public final class EncryptUtils {
 
     public static void main(String[] args) {
 
-        System.out.println(getRandomCharAndNum(16));
+        String str = getRandomCharAndNum(16);
+        System.out.println(str);
+        System.out.println(md5Hex("123456",str));
     }
 }
