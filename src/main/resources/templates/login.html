@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="col-sm-5">
-                <form id="loginForm" name="loginForm">
+                <form id="loginForm" name="loginForm" novalidate="novalidate">
                     <h4 class="no-margins">登录：</h4>
                     <p class="m-t-md">登录到后台主题UI框架</p>
                     <input type="text" class="form-control uname" placeholder="用户名" name="username" />
@@ -62,7 +62,7 @@
     <script th:src="@{/js/jquery.min.js-v=2.1.4}"></script>
     <script th:src="@{/js/plugins/validate/jquery.validate.min.js}"></script>
     <script th:src="@{/js/plugins/validate/messages_zh.min.js}"></script>
-    <!--<script th:src="@{/js/plugins/layer/layer.min.js}"></script>-->
+    <script th:src="@{/js/plugins/layer/layer.js}"></script>
 </body>
 
 <script>
@@ -87,10 +87,9 @@
 
                     },
                     success: function (data) {
-                        console.log(data);
-                        if(data.success == 0){
+                        if(!data.success){
 
-                            alert(data.msg);
+                            layer.alert(data.msg);
                         } else {
 
                             window.location.href = '/index';

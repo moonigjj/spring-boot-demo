@@ -14,7 +14,9 @@
     <div class="ibox-content">
         <div class="row">
             <div class="col-sm-12">
-                <h4 class="example-title">从URL加载</h4>
+                <div class="pull-right">
+                    <button class="btn btn-primary" onclick="add();">新增</button>
+                </div>
                 <div class="example">
                     <table id="userTable" data-toggle="table"
                            >
@@ -109,6 +111,13 @@
      }]
      
  });
+
+    function add() {
+        window.location.href = "user/toadd";
+    }
+    function edit(id) {
+        window.location.href = "user/"+ id +"/toedit";
+    }
 </script>
 
 </html>

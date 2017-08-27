@@ -14,7 +14,8 @@ public interface IExceptionMdgEnum {
 
     enum SystemCode{
 
-        SYS_ERROR(100000, "系统异常")
+        SYS_ERROR(100000, "系统异常"),
+        SUBMIT_PARAMS(100001, "提交参数不合理")
         ;
         private Integer code;
         private String message;
@@ -40,7 +41,8 @@ public interface IExceptionMdgEnum {
     enum UserCode{
 
         USERNAME_OR_PASSWORD_NOT_EMPTY(101001, "用户名或密码不能为空"),
-        USERNAME_OR_PASSWORD_NOT_CORRECT(101002,"用户名或密码不正确")
+        USERNAME_OR_PASSWORD_NOT_CORRECT(101002,"用户名或密码不正确"),
+        USER_NAME_EXIST(101003, "用户名已存在")
         ;
         private Integer code;
         private String message;

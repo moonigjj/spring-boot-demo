@@ -7,10 +7,8 @@ import com.gjy.web.filter.PageContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * ClassName:RoleController
@@ -40,6 +38,11 @@ public class RoleController {
         return roleService.findListPage(page, model.asMap());
     }
 
+    @GetMapping(value = "/toadd")
+    public String toAdd(){
+
+        return "role/roleAdd";
+    }
 
     @PostMapping(value = "/add")
     public ResultEntity addRole(){
@@ -48,6 +51,15 @@ public class RoleController {
 
         return re;
     }
+
+    
+    @GetMapping(value = "/{roleId:\\d+}/toedit")
+    public ModelAndView toEdit(@PathVariable("roleId") Integer roleId){
+
+        ModelAndView mv = new ModelAndView();
+        return mv;
+    }
+
 
     @PostMapping(value = "/edit")
     public ResultEntity editRole(){

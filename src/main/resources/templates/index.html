@@ -80,7 +80,29 @@
 
                     </li>
                     <li>
-                        <a class="J_menuItem" href="layouts.html" ><i class="fa fa-columns"></i> <span class="nav-label">布局</span></a>
+                        <a href="#" >
+                            <i class="fa fa-columns"></i>
+                            <span class="nav-label">商品管理</span>
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a class="J_menuItem" th:href="@{/product}"  data-index="0">商品管理</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" th:href="@{/brand}"  data-index="0">品牌管理</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" th:href="@{/product/type}"  data-index="0">商品分类管理</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" th:href="@{/product/spec}"  data-index="0">商品规格管理</a>
+                            </li>
+                            <li>
+                                <a class="J_menuItem" th:href="@{/product/unit}"  data-index="0">计量单位管理</a>
+                            </li>
+
+                        </ul>
                     </li>
 
                 </ul>

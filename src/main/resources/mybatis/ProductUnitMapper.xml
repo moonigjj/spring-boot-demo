@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjy.mapper.product.ProductUnitMapper">
+
+    <resultMap id="BaseResultMap" type="com.gjy.model.product.ProductUnit" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="deleted" property="deleted" jdbcType="TINYINT" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, name, remark, deleted, create_time, update_time
+    </sql>
+
+    <!-- 分页列表查询-->
+    <select id="selectListPage" resultMap="BaseResultMap">
+        SELECT
+        id, name, remark, create_time
+        FROM product_unit
+        WHERE deleted = 0
+        <if test="unitName != null and unitName != ''">
+            AND name LIKE concat(concat('%', #{unitName}), '%')
+        </if>
+        ORDER by id DESC
+    </select>
+</mapper>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head th:include="/common/headcss :: commonHeader('商品分类列表')">
+
+</head>
+<body class="gray-bg">
+
+<div class="ibox float-e-margins">
+    <div class="ibox-title">
+        <h5>商品管理 ／ 商品分类列表</h5>
+    </div>
+    <div class="ibox-content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="pull-right">
+                    <button class="btn btn-primary" onclick="add();">新增</button>
+                </div>
+                <div class="example">
+                    <table id="productTypeTable" data-toggle="table"
+                           >
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div th:include="/common/loadjs :: loadjs"></div>
+</body>
+<script>
+    function queryParams(params) {
+
+        return {
+            pageSize: params.pageSize,
+            offset: params.pageNumber
+        }
+    }
+ $('#productTypeTable').bootstrapTable({
+     method: 'get',
+     contentType: "application/x-www-form-urlencoded",
+     locale:'zh-CN',
+     striped: true,
+     cache: false,
+     pagination: true,
+     pageNumber: 1,
+     pageSize: 10,
+     pageList: [10, 25, 50, 100],
+     url: 'type/list',
+     sidePagination: "server",
+     queryParamsType: '',
+     queryParams: queryParams,
+     responseHandler:function(res){
+         //在ajax获取到数据，渲染表格之前，修改数据源
+         return {
+             "total": res.total,
+             "rows": res.records
+         };
+     },
+     columns: [{
+         field: 'typeNum',
+         title: '编号',
+         align: 'center'
+     }, {
+         field: 'name',
+         title: '分类名称',
+         align: 'center'
+     }, {
+         field: 'remark',
+         title: '备注',
+         align: 'center'
+     }, {
+             field: 'createTime',
+             title: '创建时间',
+             align: 'center'
+         }
+         ,{
+         field: 'id',
+         title: '操作',
+         align: 'center',
+         formatter:function(value,row,index){
+             //通过formatter可以自定义列显示的内容
+             //value：当前field的值，即id
+             //row：当前行的数据
+             var element =
+                 "<a class='btn btn-info' data-id='"+row.id +"'>编辑</a> "+
+                 "<a class='btn btn-danger' data-id='"+row.id +"'>删除</a> ";
+             return element;
+         }
+     }]
+     
+ });
+
+    function add() {
+        window.location.href = "product/type/toadd";
+    }
+    function del(id) {
+        window.location.href = "product/type/"+ id +"/del";
+    }
+</script>
+
+</html>

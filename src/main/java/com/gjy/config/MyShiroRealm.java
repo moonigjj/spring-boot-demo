@@ -8,6 +8,7 @@ import com.gjy.service.user.PermissionService;
 import com.gjy.service.user.RoleService;
 import com.gjy.service.user.UserAdminService;
 import com.gjy.web.util.EncryptUtils;
+import com.gjy.web.util.GsonUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -85,6 +86,7 @@ public class MyShiroRealm extends AuthorizingRealm {
                         }
                     });
             info.setRoles(roleSet);
+            logger.info("user has roles >>> {}", GsonUtils.toJson(roleSet));
 
             //设置用户角色权限
             Set<String> permissionSet = new HashSet<>();
@@ -95,6 +97,7 @@ public class MyShiroRealm extends AuthorizingRealm {
                         permissionSet.add(r.getPermission());
                     });
             info.setStringPermissions(permissionSet);
+            logger.info("user has permission >>> {}", GsonUtils.toJson(permissionSet));
         }
 
         return info;

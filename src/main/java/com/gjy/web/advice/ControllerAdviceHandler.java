@@ -5,13 +5,11 @@ import com.gjy.common.ResultEntity;
 import com.gjy.exception.IExceptionMdgEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * ClassName:ControllerAdvice
@@ -24,12 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 public class ControllerAdviceHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(ControllerAdviceHandler.class);
-
-    @ModelAttribute
-    public void addCommonMode(Model model, HttpServletRequest request){
-
-
-    }
 
     /**
      * 处理未知的异常

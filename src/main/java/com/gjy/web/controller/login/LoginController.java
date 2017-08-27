@@ -51,7 +51,7 @@ public class LoginController {
 
             UsernamePasswordToken token = new UsernamePasswordToken(username, password);
             SecurityUtils.getSubject().login(token);
-            re.setSuccess(IExceptionMdgEnum.SUCCESS_CODE);
+            re.setSuccess(true);
         } catch (AccountException ex){
 
             re.setCode(IExceptionMdgEnum.UserCode.USERNAME_OR_PASSWORD_NOT_EMPTY.getCode());

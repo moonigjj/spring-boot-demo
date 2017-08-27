@@ -1,9 +1,7 @@
 package com.gjy;
 
-import com.gjy.model.Permission;
-import com.gjy.model.Role;
-import com.gjy.model.RolePermission;
-import com.gjy.model.UserAdmin;
+import com.gjy.model.*;
+import com.gjy.service.resource.ResourceService;
 import com.gjy.service.role.RolePermissionService;
 import com.gjy.service.user.PermissionService;
 import com.gjy.service.user.RoleService;
@@ -35,6 +33,9 @@ public class GjyApplicationTests {
 
 	@Autowired
 	RolePermissionService rolePermissionService;
+
+	@Autowired
+	ResourceService resourceService;
 
 	@Test
 	public void contextLoads() {
@@ -83,6 +84,15 @@ public class GjyApplicationTests {
 	}
 
 	@Test
+	public void testAddPermission(){
+
+		Permission permission = new Permission();
+		permission.setName("del");
+		permission.setRemark("删除");
+		premissionService.insertAllColumn(permission);
+	}
+
+	@Test
 	public void testFindByRoleId(){
 
 		Integer[] ids = new Integer[]{1};
@@ -90,25 +100,23 @@ public class GjyApplicationTests {
 		System.out.printf(GsonUtils.toJson(lists));
 	}
 
-	@Test
-	public void testAddPermission(){
-
-		Permission permission = new Permission();
-		/*permission.setAvailable(0);
-		permission.setName("首页");
-		permission.setParentId(0);
-		permission.setParentIds("");
-		permission.setUrl("/index");
-		permission.setResourceType(0);
-		permission.setPermission("*");
-		premissionService.insert(permission);*/
-	}
 
 	@Test
 	public void testFindUser(){
 
 		UserAdmin userAdmin = userService.findByName("gjy");
 		System.out.printf("user admin >>> " + GsonUtils.toJson(userAdmin));
+	}
+
+	@Test
+	public void testAddResource(){
+
+		Resource resource = new Resource();
+		resource.setName("system");
+		resource.setRemark("系统管理");
+		resource.setDeleted(0);
+		resource.setUrl("#");
+		resourceService.insertAllColumn(resource);
 	}
 
 }
