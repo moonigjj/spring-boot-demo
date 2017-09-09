@@ -18,7 +18,7 @@
                                 品牌名称：
                             </label>
                             <div class="col-sm-8">
-                                <input name="name" type="text" class="form-control" readonly="readonly" />
+                                <input name="name" type="text" class="form-control" />
                             </div>
                         </div>
                         <!-- -->
@@ -74,8 +74,10 @@
 
                             layer.alert(data.msg);
                         } else {
+                            layer.alert('新增成功',{icon:1}, function(index){
+                                window.history.back(-1);
+                            });
 
-                            window.history.back(-1);
                         }
                     }
                 });

@@ -62,7 +62,10 @@
      columns: [{
          field: 'brandNum',
          title: '编号',
-         align: 'center'
+         align: 'center',
+         formatter:function(value,row,index){
+             return preFill(value, '0', 4);
+         }
      }, {
          field: 'name',
          title: '品牌名称',

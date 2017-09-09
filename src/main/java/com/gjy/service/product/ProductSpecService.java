@@ -25,4 +25,14 @@ public class ProductSpecService extends ServiceImpl<ProductSpecMapper, ProductSp
         page.setRecords(this.baseMapper.selectListPage(page, params));
         return page;
     }
+
+    public boolean addProductSpec(ProductSpec spec) {
+
+        spec.setDeleted(0);
+        int result = this.baseMapper.insertAllColumn(spec);
+        if (result < 1){
+            return false;
+        }
+        return true;
+    }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 
 /**
@@ -29,14 +30,12 @@ public class ControllerAdviceHandler {
      * @return
      */
     @ExceptionHandler(Exception.class)
-    @ResponseBody
-    public Object handlerException(Exception e){
+    public ModelAndView handlerException(Exception e){
 
         logger.error("advice handler exception >>> {}", e.getMessage());
-        ResultEntity re = new ResultEntity();
-        re.setCode(IExceptionMdgEnum.UserCode.USERNAME_OR_PASSWORD_NOT_EMPTY.getCode());
-        re.setMsg(IExceptionMdgEnum.UserCode.USERNAME_OR_PASSWORD_NOT_EMPTY.getMessage());
-        return re;
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("error/500");
+        return mv;
     }
 
 }

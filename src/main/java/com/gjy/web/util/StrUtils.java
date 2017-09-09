@@ -1,5 +1,6 @@
 package com.gjy.web.util;
 
+import com.google.common.base.Strings;
 import org.apache.shiro.util.StringUtils;
 
 /**
@@ -50,5 +51,32 @@ public final class StrUtils {
             }
         }
         return true;
+    }
+
+    /**
+     * 向前填充字符串
+     * ("1",'0',4) -> '00001'
+     * @param str 字符串
+     * @param charSequence 填充的字符
+     * @param len 填充位数
+     * @return
+     */
+    public static String preFill(String str, CharSequence charSequence, int len){
+
+        if (str == null || charSequence == null || len == 0){
+
+            return str;
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < len; i++){
+            sb.append(charSequence);
+        }
+        sb.append(str);
+        return sb.toString();
+    }
+
+    public static void main(String[] args) {
+
+        System.out.printf(preFill("1", "0", 4));
     }
 }

@@ -62,7 +62,10 @@
      columns: [{
          field: 'typeNum',
          title: '编号',
-         align: 'center'
+         align: 'center',
+         formatter: function (value,row,index) {
+             return preFill(value,'0',4);
+         }
      }, {
          field: 'name',
          title: '分类名称',
@@ -94,7 +97,7 @@
  });
 
     function add() {
-        window.location.href = "product/type/toadd";
+        window.location.href = "type/toadd";
     }
     function del(id) {
         window.location.href = "product/type/"+ id +"/del";

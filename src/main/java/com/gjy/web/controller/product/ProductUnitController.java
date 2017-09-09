@@ -2,12 +2,15 @@ package com.gjy.web.controller.product;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.gjy.common.ResultEntity;
+import com.gjy.model.product.ProductUnit;
 import com.gjy.service.product.ProductUnitService;
 import com.gjy.web.filter.PageContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * Created by gaojiajia on 2017/8/27.
@@ -40,14 +43,19 @@ public class ProductUnitController {
     }
 
     @PostMapping(value = "/add")
-    public ResultEntity add(){
+    @ResponseBody
+    public ResultEntity add(@Valid ProductUnit unit){
 
         ResultEntity re = new ResultEntity();
-
+        boolean result = this.productUnitService.addProductUnit(unit);
+        if (result){
+            re.setSuccess(true);
+        }
         return re;
     }
 
     @GetMapping(value = "/{unitId:\\d+}/del")
+    @ResponseBody
     public ResultEntity del(@PathVariable("unitId") Integer unitId){
 
         ResultEntity re = new ResultEntity();

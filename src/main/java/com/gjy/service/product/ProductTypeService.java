@@ -25,4 +25,20 @@ public class ProductTypeService extends ServiceImpl<ProductTypeMapper, ProductTy
         page.setRecords(this.baseMapper.selectListPage(page, params));
         return page;
     }
+
+    public boolean insertAndGetId(ProductType type) {
+
+        type.setDeleted(0);
+        type.setTypeNum(0);
+        int result = this.baseMapper.insertAllColumn(type);
+        if (result < 1){
+            return false;
+        }
+        type.setTypeNum(type.getId());
+        result = this.baseMapper.updateById(type);
+        if (result < 1){
+            return false;
+        }
+        return true;
+    }
 }

@@ -25,18 +25,18 @@ public class PageController {
     @GetMapping(value = "/403")
     public String auth(){
 
-        return "403";
+        return "error/403";
     }
 
     @GetMapping(value = "/404")
     public String error404(){
 
-        return "404";
+        return "error/404";
     }
 
     @GetMapping(value = "/500")
     public String error500(){
 
-        return "500";
+        return "error/500";
     }
 }

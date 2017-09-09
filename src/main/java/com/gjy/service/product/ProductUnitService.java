@@ -26,4 +26,14 @@ public class ProductUnitService extends ServiceImpl<ProductUnitMapper, ProductUn
         page.setRecords(this.baseMapper.selectListPage(page, params));
         return page;
     }
+
+    public boolean addProductUnit(ProductUnit unit) {
+
+        unit.setDeleted(0);
+        int result = this.baseMapper.insertAllColumn(unit);
+        if (result < 1){
+            return false;
+        }
+        return true;
+    }
 }

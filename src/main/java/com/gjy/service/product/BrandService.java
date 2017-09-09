@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.gjy.mapper.product.BrandMapper;
 import com.gjy.model.product.Brand;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -24,5 +25,27 @@ public class BrandService extends ServiceImpl<BrandMapper, Brand> {
 
         page.setRecords(this.baseMapper.selectListPage(page, params));
         return page;
+    }
+
+    /**
+     * 插入更新编号
+     * @param brand
+     * @return true or false
+     */
+    @Transactional
+    public boolean insertAndGetId(Brand brand){
+
+        brand.setDeleted(0);
+        brand.setBrandNum(0);
+        int result = this.baseMapper.insertAllColumn(brand);
+        if (result < 1){
+            return false;
+        }
+        brand.setBrandNum(brand.getId());
+        result = this.baseMapper.updateById(brand);
+        if (result < 1){
+            return false;
+        }
+        return true;
     }
 }

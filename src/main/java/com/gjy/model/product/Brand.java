@@ -3,6 +3,7 @@ package com.gjy.model.product;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.gjy.model.SuperEntity;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * Created by gaojiajia on 2017/8/27.
@@ -11,8 +12,9 @@ import lombok.Data;
 @TableName("brand")
 public class Brand extends SuperEntity<Brand> {
 
-    private String brandNum;
+    private Integer brandNum;
 
+    @NotBlank
     private String name;
 
     private String remark;

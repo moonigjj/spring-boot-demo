@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    <title>404 页面</title>
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link th:href="@{/css/bootstrap.min.css-v=3.3.5.css}" rel="stylesheet">
+    <link th:href="@{/css/font-awesome.min.css-v=4.4.0.css}" rel="stylesheet">
+
+    <link th:href="@{/css/animate.min.css}" rel="stylesheet">
+    <link th:href="@{/css/style.min.css-v=4.0.0.css}" rel="stylesheet"><base target="_blank">
+
+</head>
+
+<body class="gray-bg">
+    <div class="middle-box text-center animated fadeInDown">
+        <h1>404</h1>
+        <h3 class="font-bold">没有权限！</h3>
+
+        <div class="error-desc">
+            抱歉，您暂无该操作的权限~
+        </div>
+    </div>
+    <script th:src="@{/js/jquery.min.js-v=2.1.4}"></script>
+    <script th:src="@{/js/bootstrap.min.js-v=3.3.5}"></script>
+</body>
+
+</html>

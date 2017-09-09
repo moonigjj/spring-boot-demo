@@ -25,4 +25,13 @@ public class ProductService extends ServiceImpl<ProductMapper, Product> {
         page.setRecords(this.baseMapper.selectListPage(page, params));
         return page;
     }
+
+    public boolean addproduct(Product product) {
+
+        int result = this.baseMapper.insertAllColumn(product);
+        if (result < 1){
+            return false;
+        }
+        return true;
+    }
 }
