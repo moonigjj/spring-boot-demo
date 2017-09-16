@@ -85,8 +85,7 @@
              //value：当前field的值，即id
              //row：当前行的数据
              var element =
-                 "<a class='btn btn-info' data-id='"+row.id +"'>编辑</a> "+
-                 "<a class='btn btn-danger' data-id='"+row.id +"'>删除</a> ";
+                 "<a class='btn btn-danger' onclick='del("+row.id +")'>删除</a> ";
              return element;
          }
      }]
@@ -97,7 +96,7 @@
         window.location.href = "unit/toadd";
     }
     function del(id) {
-        window.location.href = "product/unit/"+ id +"/del";
+        ajaxGet("unit/"+ id +"/del");
     }
 </script>
 

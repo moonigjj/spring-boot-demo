@@ -3,6 +3,7 @@ package com.gjy.mapper.product;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.gjy.common.SuperMapper;
 import com.gjy.model.product.ProductType;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -18,4 +19,11 @@ public interface ProductTypeMapper extends SuperMapper<ProductType> {
      * @return
      */
     List<ProductType> selectListPage(Pagination page, Map<String, Object> params);
+
+    /**
+     * 通过商品分类名称查询
+     * @param typeName 商品分类名称
+     * @return
+     */
+    ProductType selectByName(@Param("typeName") String typeName);
 }

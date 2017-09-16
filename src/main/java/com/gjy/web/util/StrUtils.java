@@ -13,6 +13,15 @@ public final class StrUtils {
     }
 
     /**
+     * 是否非null,非空
+     * @param str
+     * @return
+     */
+    public static boolean isNullOrEmpty(String str){
+
+        return Strings.isNullOrEmpty(str);
+    }
+    /**
      * 判断字符串是否有内容
      * @param str 字符串
      * @return true or false

@@ -12,6 +12,9 @@ public interface IExceptionMdgEnum {
     Integer SUCCESS_CODE = 1;//成功标示
     Integer FAIL_CODE = 0;//失败标示
 
+    String SUC_MSG = "操作成功";
+    String FAIL_MSG = "操作失败";
+
     enum SystemCode{
 
         SYS_ERROR(100000, "系统异常"),
@@ -48,6 +51,34 @@ public interface IExceptionMdgEnum {
         private String message;
 
         UserCode(Integer code, String message){
+
+            this.code = code;
+            this.message = message;
+        }
+
+        public Integer getCode() {
+            return code;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+    }
+
+    /**
+     * 商品模块
+     */
+    enum ProductCode{
+        BRAND_NAME_EXIST(102001, "品牌名称已存在"),
+        PRODUCT_SPEC_NAME_EXIST(102002, "规格名称已存在"),
+        PRODUCT_TYPE_NAME_EXIST(102003, "分类名称已存在"),
+        PRODUCT_UNIT_NAME_EXIST(102004, "计量单位名称已存在"),
+        PRODUCT_NAME_EXIST(102005, "商品名称已存在"),
+        ;
+        private Integer code;
+        private String message;
+
+        ProductCode(Integer code, String message){
 
             this.code = code;
             this.message = message;

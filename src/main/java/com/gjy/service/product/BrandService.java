@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.gjy.mapper.product.BrandMapper;
 import com.gjy.model.product.Brand;
+import com.gjy.web.util.StrUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +17,31 @@ import java.util.Map;
 @Service
 public class BrandService extends ServiceImpl<BrandMapper, Brand> {
 
+    /**
+     * 通过id查询
+     * @param brandId
+     * @return
+     */
+    @Cacheable(value = "baseCache", unless = "#result == null", key = "'brand' + #brandId")
+    public Brand getBrand(Integer brandId){
+        if (brandId == null){
+            return null;
+        }
+        return this.baseMapper.selectById(brandId);
+    }
+
+    /**
+     * 通过商品名称查询
+     * @param brandName 商品名称
+     * @return
+     */
+    @Cacheable(value = "baseCache", unless = "#result == null", key = "'brand' + #brandName")
+    public Brand getBrandByName(String brandName){
+        if (StrUtils.isNullOrEmpty(brandName)){
+            return null;
+        }
+        return this.baseMapper.selectByName(brandName);
+    }
     /**
      * 分页列表查询
      * @param page 分页对象

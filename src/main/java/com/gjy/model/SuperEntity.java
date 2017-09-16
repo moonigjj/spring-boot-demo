@@ -7,7 +7,9 @@ import com.baomidou.mybatisplus.enums.FieldFill;
 import com.baomidou.mybatisplus.enums.FieldStrategy;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.gjy.web.util.DateUtils;
+import com.gjy.web.valid.ValidAdd;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -22,6 +24,7 @@ import java.util.Date;
 public class SuperEntity<T extends Model> extends Model<T> {
 
     @TableId("id")
+    @NotNull(groups = ValidAdd.class)
     private Integer id;
 
     @Override
@@ -44,7 +47,7 @@ public class SuperEntity<T extends Model> extends Model<T> {
     protected Date updateTime;
 
 
-    @JsonFormat(timezone = "GMT+8", pattern = DateUtils.pattern_day)
+    @JsonFormat(timezone = "GMT+8", pattern = DateUtils.PATTERN_DAY)
     public Date getCreateTime() {
         return createTime;
     }
@@ -53,7 +56,7 @@ public class SuperEntity<T extends Model> extends Model<T> {
         this.createTime = createTime;
     }
 
-    @JsonFormat(timezone = "GMT+8", pattern = DateUtils.pattern_day)
+    @JsonFormat(timezone = "GMT+8", pattern = DateUtils.PATTERN_DAY)
     public Date getUpdateTime() {
         return updateTime;
     }

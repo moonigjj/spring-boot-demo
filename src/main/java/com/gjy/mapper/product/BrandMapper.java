@@ -3,6 +3,7 @@ package com.gjy.mapper.product;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.gjy.common.SuperMapper;
 import com.gjy.model.product.Brand;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -18,4 +19,11 @@ public interface BrandMapper extends SuperMapper<Brand> {
      * @return
      */
     List<Brand> selectListPage(Pagination page, Map<String, Object> params);
+
+    /**
+     * 通过商品名称查询
+     * @param brandName 商品名称
+     * @return
+     */
+    Brand selectByName(@Param("brandName") String brandName);
 }

@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.gjy.mapper.product.ProductTypeMapper;
 import com.gjy.model.product.ProductType;
+import com.gjy.web.util.StrUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -13,6 +15,33 @@ import java.util.Map;
  */
 @Service
 public class ProductTypeService extends ServiceImpl<ProductTypeMapper, ProductType> {
+
+
+    /**
+     * 通过id查询
+     * @param productTypeId
+     * @return
+     */
+    @Cacheable(value = "baseCache", key = "'productType' + #productTypeId")
+    public ProductType getProductType(Integer productTypeId){
+        if (productTypeId == null){
+            return null;
+        }
+        return this.baseMapper.selectById(productTypeId);
+    }
+
+    /**
+     * 通过商品分类名称查询
+     * @param typeName 商品分类名称
+     * @return
+     */
+    @Cacheable(value = "baseCache", unless = "#result == null", key = "'productType' + #typeName")
+    public ProductType getProductTypeByName(String typeName){
+        if (StrUtils.isNullOrEmpty(typeName)){
+            return null;
+        }
+        return this.baseMapper.selectByName(typeName);
+    }
 
     /**
      * 分页列表查询

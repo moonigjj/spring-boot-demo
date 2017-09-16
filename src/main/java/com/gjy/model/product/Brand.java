@@ -17,6 +17,7 @@ public class Brand extends SuperEntity<Brand> {
     @NotBlank
     private String name;
 
+    @NotBlank
     private String remark;
 
     private Integer deleted;

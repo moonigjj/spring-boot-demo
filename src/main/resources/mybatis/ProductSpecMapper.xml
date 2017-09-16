@@ -13,6 +13,15 @@
         id, name, remark, deleted, create_time, update_time
     </sql>
 
+    <!-- 通过名称查询 -->
+    <select id="selectByName" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM product_spec
+        WHERE deleted = 0 AND name = #{specName}
+        limit 1
+    </select>
+
     <!-- 分页列表查询-->
     <select id="selectListPage" resultMap="BaseResultMap">
         SELECT

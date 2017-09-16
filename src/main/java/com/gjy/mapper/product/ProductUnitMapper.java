@@ -3,6 +3,7 @@ package com.gjy.mapper.product;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.gjy.common.SuperMapper;
 import com.gjy.model.product.ProductUnit;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -18,4 +19,11 @@ public interface ProductUnitMapper extends SuperMapper<ProductUnit> {
      * @return
      */
     List<ProductUnit> selectListPage(Pagination page, Map<String, Object> params);
+
+    /**
+     * 通过计量单位名称查询
+     * @param unitName 计量单位名称
+     * @return
+     */
+    ProductUnit selectByName(@Param("unitName") String unitName);
 }

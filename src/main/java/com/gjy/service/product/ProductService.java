@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.gjy.mapper.product.ProductMapper;
 import com.gjy.model.product.Product;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -13,6 +14,19 @@ import java.util.Map;
  */
 @Service
 public class ProductService extends ServiceImpl<ProductMapper, Product> {
+
+    /**
+     * 通过id查询
+     * @param productId
+     * @return
+     */
+    @Cacheable(value = "baseCache", key = "'product' + #productId")
+    public Product getProductSpec(Integer productId){
+        if (productId == null){
+            return null;
+        }
+        return this.baseMapper.selectById(productId);
+    }
 
     /**
      * 分页列表查询

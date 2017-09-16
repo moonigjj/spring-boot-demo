@@ -3,6 +3,7 @@ package com.gjy.mapper.product;
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.gjy.common.SuperMapper;
 import com.gjy.model.product.ProductSpec;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -18,4 +19,11 @@ public interface ProductSpecMapper extends SuperMapper<ProductSpec> {
      * @return
      */
     List<ProductSpec> selectListPage(Pagination page, Map<String, Object> params);
+
+    /**
+     * 通过商品规格名称查询
+     * @param specName 商品规格名称
+     * @return
+     */
+    ProductSpec selectByName(@Param("specName") String specName);
 }

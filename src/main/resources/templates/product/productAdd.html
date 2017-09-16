@@ -57,8 +57,8 @@
                 remark: {required: true,minlength: 2, maxlength: 100}
             },
             messages: {
-                name: {required: "请填写分类名称",minlength: "不能少于2个长度", maxlength: "不能大于16个长度"},
-                remark: {required: "请填写备注",minlength: "不能少于2个长度", maxlength: "不能大于100个长度"}
+                name: {required: "请填写分类名称", maxlength: "不能大于16个长度"},
+                remark: {required: "请填写备注", maxlength: "不能大于100个长度"}
             },
             submitHandler: function () {
                 $.ajax({
