@@ -26,4 +26,10 @@ public interface BrandMapper extends SuperMapper<Brand> {
      * @return
      */
     Brand selectByName(@Param("brandName") String brandName);
+
+    /**
+     * 查询全部未删除
+     * @return
+     */
+    List<Brand> selectAllBrand();
 }

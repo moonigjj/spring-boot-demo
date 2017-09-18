@@ -14,6 +14,13 @@
         id, name, remark, deleted, create_time, update_time
     </sql>
 
+    <!-- 查询所以未删除 -->
+    <select id="selectAllUnit" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM product_unit
+        WHERE deleted = 0
+    </select>
     <!-- 通过名称查询 -->
     <select id="selectByName" resultMap="BaseResultMap">
         SELECT

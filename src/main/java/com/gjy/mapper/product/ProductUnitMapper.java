@@ -26,4 +26,10 @@ public interface ProductUnitMapper extends SuperMapper<ProductUnit> {
      * @return
      */
     ProductUnit selectByName(@Param("unitName") String unitName);
+
+    /**
+     * 查询全部未删除
+     * @return
+     */
+    List<ProductUnit> selectAllUnit();
 }

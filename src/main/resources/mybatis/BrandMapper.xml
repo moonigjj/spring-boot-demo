@@ -13,7 +13,13 @@
     <sql id="Base_Column_List" >
         id, brand_num, name, remark, deleted, create_time, update_time
     </sql>
-
+    <!-- 查询所以未删除 -->
+    <select id="selectAllBrand" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM brand
+        WHERE deleted = 0
+    </select>
     <!-- 通过名称查询 -->
     <select id="selectByName" resultMap="BaseResultMap">
         SELECT

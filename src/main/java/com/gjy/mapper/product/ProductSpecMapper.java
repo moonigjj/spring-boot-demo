@@ -26,4 +26,10 @@ public interface ProductSpecMapper extends SuperMapper<ProductSpec> {
      * @return
      */
     ProductSpec selectByName(@Param("specName") String specName);
+
+    /**
+     * 查询全部未删除
+     * @return
+     */
+    List<ProductSpec> selectAllSpec();
 }

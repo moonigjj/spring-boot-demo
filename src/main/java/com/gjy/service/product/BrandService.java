@@ -42,6 +42,8 @@ public class BrandService extends ServiceImpl<BrandMapper, Brand> {
         }
         return this.baseMapper.selectByName(brandName);
     }
+
+    
     /**
      * 分页列表查询
      * @param page 分页对象

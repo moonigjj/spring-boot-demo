@@ -26,4 +26,10 @@ public interface ProductTypeMapper extends SuperMapper<ProductType> {
      * @return
      */
     ProductType selectByName(@Param("typeName") String typeName);
+
+    /**
+     * 查询全部未删除
+     * @return
+     */
+    List<ProductType> selectAllType();
 }
