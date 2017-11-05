@@ -2,6 +2,7 @@ package com.gjy.mapper.product;
 
 import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.gjy.common.SuperMapper;
+import com.gjy.dto.ProductDTO;
 import com.gjy.model.product.Product;
 
 import java.util.List;
@@ -17,5 +18,5 @@ public interface ProductMapper extends SuperMapper<Product> {
      * @param page 分页对象 params 条件参数
      * @return
      */
-    List<Product> selectListPage(Pagination page, Map<String, Object> params);
+    List<ProductDTO> selectListPage(Pagination page, Map<String, Object> params);
 }

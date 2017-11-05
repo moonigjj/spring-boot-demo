@@ -8,6 +8,7 @@ import com.gjy.web.util.StrUtils;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,6 +45,15 @@ public class ProductUnitService extends ServiceImpl<ProductUnitMapper, ProductUn
     }
 
     /**
+     * 查询所以未删除的计量单位
+     * @return
+     */
+    public List<ProductUnit> findAll(){
+
+        return this.baseMapper.selectAllUnit();
+    }
+
+    /**
      * 分页列表查询
      * @param page 分页对象
      * @param params 条件参数
@@ -55,6 +65,11 @@ public class ProductUnitService extends ServiceImpl<ProductUnitMapper, ProductUn
         return page;
     }
 
+    /**
+     * 新增计量单位
+     * @param unit
+     * @return
+     */
     public boolean addProductUnit(ProductUnit unit) {
 
         unit.setDeleted(0);

@@ -1,31 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.gjy.mapper.product.ProductMapper">
-    <resultMap id="BaseResultMap" type="com.gjy.model.product.Product" >
-        <id column="id" property="id" jdbcType="INTEGER" />
-        <result column="product_type_id" property="productTypeId" jdbcType="INTEGER"></result>
-        <result column="name" property="name" jdbcType="VARCHAR" />
-        <result column="product_spec_id" property="productSpecId" jdbcType="INTEGER"></result>
-        <result column="product_unit_id" property="productUnitId" jdbcType="INTEGER"></result>
-        <result column="price" property="price" jdbcType="INTEGER"></result>
-        <result column="remark" property="remark" jdbcType="VARCHAR" />
-        <result column="deleted" property="deleted" jdbcType="TINYINT" />
-        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    </resultMap>
     <sql id="Base_Column_List" >
-        id, product_type_id, name, product_spec_id, product_unit_id, price, remark, deleted, create_time, update_time
+        id, name, product_type_id, brand_id, product_spec_id, product_unit_id, remark, deleted, create_time, update_time
     </sql>
 
     <!-- 分页列表查询-->
-    <select id="selectListPage" resultMap="BaseResultMap">
-        SELECT
-        id, name, remark, create_time
-        FROM product
-        WHERE deleted = 0
-        <if test="productName != null and productName != ''">
-            AND name LIKE concat(concat('%', #{productName}), '%')
-        </if>
-        ORDER by id DESC
+    <select id="selectListPage" resultType="com.gjy.dto.ProductDTO">
+        SELECT p.id, p.name productName, b.name brandName, p.create_time, t.name typeName, s.name specName, u.name unitName
+        FROM (
+            SELECT
+            id, name, brand_id, create_time, product_type_id, product_spec_id, product_unit_id
+            FROM product
+            WHERE deleted = 0
+            ORDER by id DESC
+        ) p
+        LEFT JOIN (SELECT id, name FROM brand WHERE deleted = 0) b ON p.brand_id = b.id
+        LEFT JOIN (SELECT id, name FROM product_type WHERE deleted = 0) t ON p.product_type_id = t.id
+        LEFT JOIN (SELECT id, name FROM product_spec WHERE deleted = 0) s on p.product_spec_id = s.id
+        LEFT JOIN (SELECT id, name FROM product_unit WHERE deleted = 0) u on p.product_unit_id = u.id
     </select>
 </mapper>

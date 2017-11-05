@@ -8,6 +8,7 @@ import com.gjy.web.util.StrUtils;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -43,6 +44,15 @@ public class ProductSpecService extends ServiceImpl<ProductSpecMapper, ProductSp
     }
 
     /**
+     * 查询未删除的规格
+     * @return
+     */
+    public List<ProductSpec> findAll(){
+
+        return this.baseMapper.selectAllSpec();
+    }
+
+    /**
      * 分页列表查询
      * @param page 分页对象
      * @param params 条件参数
@@ -54,6 +64,11 @@ public class ProductSpecService extends ServiceImpl<ProductSpecMapper, ProductSp
         return page;
     }
 
+    /**
+     * 新增规格
+     * @param spec
+     * @return
+     */
     public boolean addProductSpec(ProductSpec spec) {
 
         spec.setDeleted(0);

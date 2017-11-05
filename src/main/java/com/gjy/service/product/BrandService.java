@@ -5,16 +5,19 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.gjy.mapper.product.BrandMapper;
 import com.gjy.model.product.Brand;
 import com.gjy.web.util.StrUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 /**
  * Created by gaojiajia on 2017/8/27.
  */
 @Service
+@Slf4j
 public class BrandService extends ServiceImpl<BrandMapper, Brand> {
 
     /**
@@ -67,14 +70,19 @@ public class BrandService extends ServiceImpl<BrandMapper, Brand> {
         brand.setDeleted(0);
         brand.setBrandNum(0);
         int result = this.baseMapper.insertAllColumn(brand);
-        if (result < 1){
-            return false;
-        }
+        log.info("insert brand result - {}", result);
         brand.setBrandNum(brand.getId());
         result = this.baseMapper.updateById(brand);
-        if (result < 1){
-            return false;
-        }
+        log.info("update brand result - {}", result);
         return true;
+    }
+
+    /**
+     * 查询所有未删除的
+     * @return
+     */
+    public List<Brand> findAll(){
+
+        return this.baseMapper.selectAllBrand();
     }
 }

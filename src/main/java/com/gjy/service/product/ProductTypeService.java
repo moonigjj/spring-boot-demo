@@ -8,6 +8,7 @@ import com.gjy.web.util.StrUtils;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,6 +45,15 @@ public class ProductTypeService extends ServiceImpl<ProductTypeMapper, ProductTy
     }
 
     /**
+     * 查询未删除的商品类型
+     * @return
+     */
+    public List<ProductType> findAll(){
+
+        return this.baseMapper.selectAllType();
+    }
+
+    /**
      * 分页列表查询
      * @param page 分页对象
      * @param params 条件参数
@@ -55,6 +65,11 @@ public class ProductTypeService extends ServiceImpl<ProductTypeMapper, ProductTy
         return page;
     }
 
+    /**
+     * 新增分类，返回主键
+     * @param type
+     * @return
+     */
     public boolean insertAndGetId(ProductType type) {
 
         type.setDeleted(0);

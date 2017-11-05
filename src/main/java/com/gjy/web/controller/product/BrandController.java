@@ -24,10 +24,6 @@ public class BrandController {
     @Autowired
     private BrandService brandService;
 
-//    @ModelAttribute
-//    public
-
-
     @GetMapping
     public String getList(){
 

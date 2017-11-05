@@ -2,10 +2,12 @@ package com.gjy.service.product;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.gjy.dto.ProductDTO;
 import com.gjy.mapper.product.ProductMapper;
 import com.gjy.model.product.Product;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -20,8 +22,8 @@ public class ProductService extends ServiceImpl<ProductMapper, Product> {
      * @param productId
      * @return
      */
-    @Cacheable(value = "baseCache", key = "'product' + #productId")
-    public Product getProductSpec(Integer productId){
+    @Cacheable(value = "baseCache", unless = "#result == null", key = "'product' + #productId")
+    public Product getProduct(Integer productId){
         if (productId == null){
             return null;
         }
@@ -34,12 +36,13 @@ public class ProductService extends ServiceImpl<ProductMapper, Product> {
      * @param params 条件参数
      * @return
      */
-    public Page<Product> findListPage(Page<Product> page, Map<String, Object> params){
+    public Page<ProductDTO> findListPage(Page<ProductDTO> page, Map<String, Object> params){
 
         page.setRecords(this.baseMapper.selectListPage(page, params));
         return page;
     }
 
+    @Transactional
     public boolean addproduct(Product product) {
 
         int result = this.baseMapper.insertAllColumn(product);

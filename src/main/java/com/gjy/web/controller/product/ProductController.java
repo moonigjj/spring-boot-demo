@@ -3,7 +3,8 @@ package com.gjy.web.controller.product;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.gjy.common.ResultEntity;
 import com.gjy.model.product.Product;
-import com.gjy.service.product.ProductService;
+import com.gjy.model.product.ProductType;
+import com.gjy.service.product.*;
 import com.gjy.web.filter.PageContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,18 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private ProductSpecService productSpecService;
+
+    @Autowired
+    private ProductTypeService productTypeService;
+
+    @Autowired
+    private ProductUnitService productUnitService;
+
+    @Autowired
+    private BrandService brandService;
+
 
     @GetMapping
     public String getList(){
@@ -38,8 +51,12 @@ public class ProductController {
     }
 
     @GetMapping(value = "/toadd")
-    public String toAdd(){
+    public String toAdd(Model model){
 
+        model.addAttribute("brands", this.brandService.findAll());
+        model.addAttribute("specs", this.productSpecService.findAll());
+        model.addAttribute("types", this.productTypeService.findAll());
+        model.addAttribute("units", this.productUnitService.findAll());
         return "product/productAdd";
     }
 
