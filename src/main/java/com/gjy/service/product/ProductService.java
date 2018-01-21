@@ -5,10 +5,12 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.gjy.dto.ProductDTO;
 import com.gjy.mapper.product.ProductMapper;
 import com.gjy.model.product.Product;
+import com.gjy.web.util.StrUtils;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,6 +33,19 @@ public class ProductService extends ServiceImpl<ProductMapper, Product> {
     }
 
     /**
+     * 通过产品名称查询
+     * @param productName 产品名称
+     * @return
+     */
+    @Cacheable(value = "baseCache", unless = "#result == null", key = "'product' + #brandName")
+    public Product getProductByName(String productName){
+        if (StrUtils.isNullOrEmpty(productName)){
+            return null;
+        }
+        return this.baseMapper.selectByName(productName);
+    }
+
+    /**
      * 分页列表查询
      * @param page 分页对象
      * @param params 条件参数
@@ -50,5 +65,14 @@ public class ProductService extends ServiceImpl<ProductMapper, Product> {
             return false;
         }
         return true;
+    }
+
+    /**
+     * 查询所有未删除的
+     * @return
+     */
+    public List<Product> findAll(){
+
+        return this.baseMapper.selectAllProduct();
     }
 }

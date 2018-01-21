@@ -2,12 +2,15 @@ package com.gjy.web.controller.order;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.gjy.common.ResultEntity;
+import com.gjy.model.order.BuyOrder;
 import com.gjy.service.order.BuyOrderService;
 import com.gjy.service.product.ProductService;
 import com.gjy.web.filter.PageContext;
+import com.gjy.web.util.SnowflakeId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -39,16 +42,18 @@ public class BuyOrderController {
     }
 
     @GetMapping(value = "/toadd")
-    public String toAdd(){
+    public String toAdd(Model model){
 
+        model.addAttribute("product", this.productService.findAll());
         return "order/buyOrderAdd";
     }
 
     @PostMapping(value = "/add")
-    public ResultEntity addBuyOrder(){
+    public ResultEntity addBuyOrder(@Validated BuyOrder buyOrder){
 
         ResultEntity re = new ResultEntity();
-
+        buyOrder.setOrderId("b" + SnowflakeId.getInstance().getLongBinaryString());
+        this.buyOrderService.insertAllColumn(buyOrder);
         return re;
     }
 
@@ -57,6 +62,7 @@ public class BuyOrderController {
     public ModelAndView toEdit(@PathVariable("orderId") Integer orderId){
 
         ModelAndView mv = new ModelAndView();
+        this.buyOrderService.selectById(orderId);
         return mv;
     }
 

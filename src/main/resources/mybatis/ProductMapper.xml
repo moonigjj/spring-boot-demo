@@ -5,6 +5,22 @@
         id, name, product_type_id, brand_id, product_spec_id, product_unit_id, remark, deleted, create_time, update_time
     </sql>
 
+    <!-- 查询所以未删除 -->
+    <select id="selectAllProduct" resultType="com.gjy.model.product.Product">
+        SELECT id, name
+        FROM product
+        WHERE deleted = 0
+    </select>
+
+    <!-- 通过名称查询 -->
+    <select id="selectByName" resultType="com.gjy.model.product.Product">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM brand
+        WHERE deleted = 0 AND name = #{productName}
+        limit 1
+    </select>
+
     <!-- 分页列表查询-->
     <select id="selectListPage" resultType="com.gjy.dto.ProductDTO">
         SELECT p.id, p.name productName, b.name brandName, p.create_time, t.name typeName, s.name specName, u.name unitName

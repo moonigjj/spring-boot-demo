@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gjy.mapper.order.BuyOrderMapper" >
+
+    <!-- 分页列表查询-->
+    <select id="selectListPage" resultType="com.gjy.dto.BuyOrderDTO">
+        SELECT
+        id, price, nums, total, create_time
+        FROM buy_order
+        WHERE deleted = 0
+
+        ORDER by id DESC
+    </select>
+</mapper>

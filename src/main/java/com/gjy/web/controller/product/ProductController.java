@@ -2,6 +2,7 @@ package com.gjy.web.controller.product;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.gjy.common.ResultEntity;
+import com.gjy.exception.IExceptionMdgEnum;
 import com.gjy.model.product.Product;
 import com.gjy.model.product.ProductType;
 import com.gjy.service.product.*;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Objects;
 
 /**
  * Created by gaojiajia on 2017/8/27.
@@ -65,6 +67,12 @@ public class ProductController {
     public ResultEntity add(@Valid Product product){
 
         ResultEntity re = new ResultEntity();
+        Product pro = this.productService.getProductByName(product.getName());
+        if (Objects.isNull(pro)){
+            re.setCode(IExceptionMdgEnum.ProductCode.PRODUCT_NAME_EXIST.getCode());
+            re.setMsg(IExceptionMdgEnum.ProductCode.PRODUCT_NAME_EXIST.getMessage());
+            return re;
+        }
         boolean result = this.productService.addproduct(product);
         if (result){
             re.setSuccess(true);

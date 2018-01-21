@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.plugins.pagination.Pagination;
 import com.gjy.common.SuperMapper;
 import com.gjy.dto.ProductDTO;
 import com.gjy.model.product.Product;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -19,4 +20,17 @@ public interface ProductMapper extends SuperMapper<Product> {
      * @return
      */
     List<ProductDTO> selectListPage(Pagination page, Map<String, Object> params);
+
+    /**
+     * 通过产品名称查询
+     * @param productName 产品名称
+     * @return
+     */
+    Product selectByName(@Param("productName") String productName);
+
+    /**
+     * 查询全部未删除
+     * @return
+     */
+    List<Product> selectAllProduct();
 }
